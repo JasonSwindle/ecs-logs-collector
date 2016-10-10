@@ -264,6 +264,16 @@ get_iptables_info()
   ok
 }
 
+get_ecs-agent_net_status()
+{
+  try "checking if --net=host is enabled on ecs-agent"
+
+  dstdir="${info_system}/ecs-agent"
+  docker inspect --format='{{.HostConfig.NetworkMode}}' ecs-agent | grep 'host' || echo "ECS-Agent not running in --net=host"  > ${info_system}/ecs-agent_net_status.txt
+
+  ok
+}
+
 get_common_logs()
 {
   try "collect common system logs"
